@@ -87,7 +87,7 @@ var hosts = setup.hosts.config({
 	'10.0.0.2':'server2.example.com'
 });
 
-setup.hosts.save(hosts, './hosts.txt');
+setup.hosts.save(hosts);
 ```
 
 
