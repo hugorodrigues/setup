@@ -1,7 +1,7 @@
 {
   "name": "setup",
   "description": "A server config utility for nodejs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Hugo Rodrigues <correio@hugorodrigues.com>",
   "homepage": "https://github.com/hugorodrigues/setup",
   "repository": {
