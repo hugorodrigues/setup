@@ -8,18 +8,16 @@ module.exports = function(){
 		clock: {},
 	};
 
-
 	// Hostname
 	obj.hostname.save = function(hostname,outFile){
-		require('fs').writeFileSync(outFile || '/etc/hosts', hostname);
+		require('fs').writeFileSync(outFile || '/etc/hostname', hostname);
 	}
-
-
 
 	// Hosts
 	obj.hosts.save = function(config,outFile){
 		require('fs').writeFileSync(outFile || '/etc/hosts', config);
 	}
+	
 	obj.hosts.config = function(hosts) {
 
 		var output =[];
@@ -31,7 +29,6 @@ module.exports = function(){
 
 		for (ip in hosts)
 			output.push(ip+'  '+hosts[ip]);
-
 
 		return output.join("\n");
 	}
