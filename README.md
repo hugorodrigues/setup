@@ -22,7 +22,7 @@ npm install setup
 # API
 
 ### Networking
-- setup.network.config(config)  // Creates/returns a new network config file
+- setup.network.parse(filePath)
 - setup.network.save(config, outFile) 	  // Saves the configuration
 - setup.network.restart() 	  // Restart network interfaces
 
@@ -48,30 +48,18 @@ This will set your wlan0 card to connect at boot, use dhcp for ip settings, e co
 Your ethernet card will have a static ip.
 
 ```js
-var setup = require('setup')();
+const networking = require('setup').networking;
+const cfg = {
+  auto: ['lo'],
+  iface: [{
+      device: 'eth0',
+      mode: 'dhcp'
+  }]
+};
 
-var config = setup.network.config({
-
-	wlan0: {
-		auto: true, // start at Boot
-		dhcp: true, // Use DHCP
-		wireless: {
-			ssid: 'myWirelessName', // Wireless SSID
-			psk: 'mySuperPassword', // Password
-		}
-	},
-	eth0: {
-		auto: true,
-		ipv4: {
-			address: '192.168.1.20',
-			netmask: '255.255.255.0',
-			gateway: '192.168.1.1',
-			dns: '8.8.8.8'
-		}
-	}
-});
-
-setup.network.save(config);
+networking.save(cfg, '/etc/network/myfile')
+.then((result) => console.log)
+.catch((error) => console.error);
 ```
 
 
@@ -82,12 +70,10 @@ setup.hostname.save('nodejs.example.com');
 
 ### Change hosts
 ```js
-var hosts = setup.hosts.config({ 
-	'10.0.0.1':'server1.example.com', 
+const hosts = await setup.hosts({
+	'10.0.0.1':'server1.example.com',
 	'10.0.0.2':'server2.example.com'
-});
-
-setup.hosts.save(hosts);
+}).save('/etc/hosts');
 ```
 
 
