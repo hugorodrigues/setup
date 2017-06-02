@@ -7,6 +7,7 @@ Change: hostname, network interfaces, hosts and date/time
 # setup
 
 [![Build Status](https://travis-ci.org/ninox92/setup.svg?branch=master)](https://travis-ci.org/ninox92/setup)
+[![Coverage Status](https://coveralls.io/repos/github/ninox92/setup/badge.svg?branch=master)](https://coveralls.io/github/ninox92/setup?branch=master)
 
 - Set your network configuration. supports wireless adapters
 - Change your hostname
