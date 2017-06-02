@@ -1,5 +1,4 @@
 # setup
-=====
 
 [![Build Status](https://travis-ci.org/ninox92/setup.svg?branch=master)](https://travis-ci.org/ninox92/setup)
 [![Coverage Status](https://coveralls.io/repos/github/ninox92/setup/badge.svg?branch=master)](https://coveralls.io/github/ninox92/setup?branch=master)
@@ -7,7 +6,7 @@
 A server config utility for nodejs
 Change: hostname, network interfaces, hosts and date/time
 
-# Features
+## Features
 
 - Set your network configuration. supports wireless adapters
 - Change your hostname
@@ -23,7 +22,7 @@ You need to install wpasupplicant for wireless options
 npm install setup
 ```
 
-# API
+## API
 
 ### Networking
 - setup.network.parse(filePath)
@@ -44,7 +43,7 @@ npm install setup
 - setup.clock.set(time) // Set date/time and sync BIOS clock
 
 
-# Examples
+## Examples
 
 ### Set network interfaces
 
