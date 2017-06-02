@@ -4,6 +4,9 @@ A server config utility for nodejs
 Change: hostname, network interfaces, hosts and date/time
 
 # Features
+# setup
+
+[![Build Status](https://travis-ci.org/ninox92/setup.svg?branch=master)](https://travis-ci.org/ninox92/setup)
 
 - Set your network configuration. supports wireless adapters
 - Change your hostname
