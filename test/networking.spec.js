@@ -160,7 +160,7 @@ describe('Testing networking Functions', () => {
   describe('Testing save function', () => {
 
     it('should throw an error if an iface definition is missing', async () => {
-      const expected = 'Invalid configuration, missing iface!';
+      const expected = 'Invalid configuration, missing ifaces!';
 
       const config = {
         auto: ['lo']
@@ -180,7 +180,7 @@ describe('Testing networking Functions', () => {
 
       const config = {
         auto: ['lo'],
-        iface: {
+        ifaces: {
           mode: 'dhcp'
         }
       };
@@ -199,7 +199,7 @@ describe('Testing networking Functions', () => {
 
       const config = {
         auto: ['lo'],
-        iface: {
+        ifaces: {
           device: 'eth0'
         }
       };
@@ -218,7 +218,7 @@ describe('Testing networking Functions', () => {
 
       const config = {
         auto: ['lo'],
-        iface: {
+        ifaces: {
           device: 'eth0',
           mode: 'static',
           static: {
@@ -248,7 +248,7 @@ describe('Testing networking Functions', () => {
 
       const config = {
         auto: 'lo',
-        iface: [{
+        ifaces: [{
           device: 'eth0',
           mode: 'dhcp'
         }]
@@ -270,7 +270,7 @@ describe('Testing networking Functions', () => {
 
       const config = {
         auto: 'lo',
-        iface: [{
+        ifaces: [{
           device: 'eth0',
           mode: 'dhcp'
         }]
@@ -291,7 +291,7 @@ describe('Testing networking Functions', () => {
 
       const config = {
         auto: 'lo',
-        iface: {
+        ifaces: {
           device: 'eth0',
           mode: 'dhcp'
         }
@@ -311,7 +311,7 @@ describe('Testing networking Functions', () => {
         'iface eth0 inet dhcp\r\n';
 
       const config = {
-        iface: [{
+        ifaces: [{
           device: 'eth0',
           mode: 'dhcp'
         }]
@@ -332,7 +332,7 @@ describe('Testing networking Functions', () => {
 
       const config = {
         auto: ['lo'],
-        iface: [{
+        ifaces: [{
           device: 'eth0',
           mode: 'dhcp'
         }]
@@ -360,7 +360,7 @@ describe('Testing networking Functions', () => {
 
       const config = {
         auto: ['eth0', 'wlan0'],
-        iface: [{
+        ifaces: [{
           device: 'eth0',
           mode: 'static',
           static: {
