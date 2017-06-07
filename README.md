@@ -18,6 +18,7 @@ You need to install wpasupplicant for wireless options
 
 
 # Install
+
 ```bash
 npm install setup
 ```
@@ -25,27 +26,6 @@ npm install setup
 ## API
 
 ### Networking
-- setup.network.parse(filePath)
-- setup.network.save(config, outFile) 	  // Saves the configuration
-- setup.network.restart() 	  // Restart network interfaces
-
-
-### Hostname
-- setup.hosts.save(hostname, outFile)
-
-
-### Hosts (dns)
-- setup.hosts.config(hosts)
-- setup.hosts.save(config, outFile)
-
-
-### Date/Time
-- setup.clock.set(time) // Set date/time and sync BIOS clock
-
-
-## Examples
-
-### Set network interfaces
 
 This will set your wlan0 card to connect at boot, use dhcp for ip settings, e connect to the SSID 'myWirelessName'.
 Your ethernet card will have a static ip.
@@ -54,9 +34,17 @@ Your ethernet card will have a static ip.
 const networking = require('setup').networking;
 const cfg = {
   auto: ['lo'],
-  iface: [{
-      device: 'eth0',
-      mode: 'dhcp'
+  ifaces: [{
+    device: 'eth0',
+    mode: 'dhcp',
+    dhcp: {
+      'address': '192.168.1.15',
+      'netmask': '255.255.255.0',
+      'gateway': '192.168.1.254',
+      'broadcast': '192.168.0.255',
+      'dns-search': ['example.com', 'sales.example.com', 'dev.example.com'],
+      'dns-nameservers': '192.168.1.3'
+  	}
   }]
 };
 
@@ -65,18 +53,72 @@ networking.save(cfg, '/etc/network/myfile')
 .catch((error) => console.error);
 ```
 
+- setup.network.restart() 	  // Restart network interfaces
 
-### Change Hostname
+
+### Hostname
+
 ```js
-setup.hostname.save('nodejs.example.com');
+const setup = require('setup');
+const hostname = setup.hostname;
+
+async function setHostname() {
+	const newHostname = 'my.hostname';
+
+	// Saves the new hosts to /etc/hostname
+    const result = await hostname.save(newHostname);
+	console.log(result);
+}
+
+setHostname();
 ```
 
-### Change hosts
+### Hosts (dns)
+
 ```js
-const hosts = await setup.hosts({
-	'10.0.0.1':'server1.example.com',
-	'10.0.0.2':'server2.example.com'
-}).save('/etc/hosts');
+const setup = require('setup');
+const hosts = setup.hosts;
+
+async function setHosts() {
+	const cfg = {
+		'10.0.0.1': 'server1.example.com',
+		'10.0.0.2': 'server2.example.com'
+	};
+
+	// Saves the new hosts to /etc/hosts
+    const result = await hosts(cfg).save();
+	console.log(result);
+}
+
+setHosts();
 ```
 
+### Date/Time
 
+#### Get
+
+```js
+const setup = require('setup');
+const datetime = setup.datetime;
+
+async function dateTime() {
+	const currentTime = await datetime.get();
+	console.log(currentTime);
+}
+
+dateTime();
+```
+
+#### Set
+
+```js
+const setup = require('setup');
+const datetime = setup.datetime;
+
+async function dateTime() {
+	// Set date/time and sync BIOS clock
+	await datetime.set('2017-06-07 12:34:56');
+}
+
+dateTime();
+```
