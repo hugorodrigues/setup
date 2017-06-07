@@ -34,7 +34,7 @@ describe('Testing networking Functions', () => {
   describe('Testing parse function', () => {
 
     it('should throw an error if the auto definition is missing', async () => {
-      const data = 'iface foo init';
+      const data = 'iface foo inet';
       const expected = 'Parse error! Missing `auto` definition!';
 
       try {
@@ -48,8 +48,8 @@ describe('Testing networking Functions', () => {
     });
 
     it('should throw an error if an iface definition is incorrect', async () => {
-      const data = 'auto lo\r\n\r\niface foo init';
-      const expected = `Parse error! Incorrect iface definition at: 'iface foo init'`;
+      const data = 'auto lo\r\n\r\niface foo inet';
+      const expected = `Parse error! Incorrect iface definition at: 'iface foo inet'`;
 
       try {
         fs.writeFileSync(filePath, data, 'utf8');
@@ -59,6 +59,23 @@ describe('Testing networking Functions', () => {
         should.exist(error);
         error.should.have.property('message', expected);
       }
+    });
+
+    it('should be able to parse the /etc/network/interfaces by default', async () => {
+
+      const data = 'auto lo\r\n\r\niface lo inet loopback';
+
+      try {
+        fs.writeFileSync(filePath, data, 'utf8');
+        const result = await networking.parse();
+        should.exist(result);
+        result.should.have.property('auto', ['lo']);
+        result.should.have.property('ifaces').which.is.an.Array();
+        result.ifaces.should.have.lengthOf(1);
+      } catch (error) {
+        should.not.exist(error);
+      }
+
     });
 
     it('should be able to parse the interfaces file succesfully', async () => {
