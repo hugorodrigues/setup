@@ -11,7 +11,9 @@
     "test": "npm run lint && gulp mocha",
     "test-cov": "nyc node_modules/mocha/bin/_mocha -- {lib,test}/**/*.spec.js",
     "coverage": "nyc npm test",
-    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "clean": "rm -rf node_modules/",
+    "reinstall": "npm run clean && npm install"
   },
   "files": [
     "examples/",
@@ -47,7 +49,7 @@
     "sysadmin",
     "devops",
     "network",
-    "interfaces"
+    "interfaces",
     "setup",
     "hostname",
     "wireless",
