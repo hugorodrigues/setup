@@ -1,5 +1,11 @@
 # Change Log
 
+## v1.0.2 (2017-06-14)
+
+**Closed issues:**
+
+- Remove operation system restrictions in package.json. Now when requiring the package, npm does not throw an error when requiring on windows.
+
 ## v1.0.1 (2017-06-08)
 
 **Closed issues:**
