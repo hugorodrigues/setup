@@ -6,9 +6,6 @@
   "engines": {
     "node": ">=7.6"
   },
-  "os": [
-    "!win32"
-  ],
   "scripts": {
     "lint": "gulp eslint",
     "test": "npm run lint && gulp mocha",
@@ -50,6 +47,7 @@
     "sysadmin",
     "devops",
     "network",
+    "interfaces"
     "setup",
     "hostname",
     "wireless",
