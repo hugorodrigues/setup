@@ -1,14 +1,60 @@
 {
   "name": "setup",
+  "version": "1.0.3",
   "description": "A server config utility for nodejs",
-  "version": "0.0.3",
-  "author": "Hugo Rodrigues <correio@hugorodrigues.com>",
-  "homepage": "https://github.com/hugorodrigues/setup",
+  "main": "./lib/index.js",
+  "engines": {
+    "node": ">=7.6"
+  },
+  "scripts": {
+    "lint": "gulp eslint",
+    "test": "npm run lint && gulp mocha",
+    "test-cov": "nyc node_modules/mocha/bin/_mocha -- {lib,test}/**/*.spec.js",
+    "coverage": "nyc npm test",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "clean": "rm -rf node_modules/",
+    "reinstall": "npm run clean && npm install"
+  },
+  "files": [
+    "examples/",
+    "lib/",
+    "LICENSE"
+  ],
+  "author": [
+    "Hugo Rodrigues <correio@hugorodrigues.com>",
+    "Thomas Reynders <thomasreynders@hotmail.nl>"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "coveralls": "^2.13.1",
+    "eslint": "^3.19.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-mocha": "^4.3.1",
+    "mocha": "^3.3.0",
+    "mock-fs": "^4.3.0",
+    "nyc": "^10.3.0",
+    "proxyquire": "^1.8.0",
+    "should": "^11.2.1",
+    "sinon": "^2.2.0",
+    "sinon-stub-promise": "^4.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://hugorodrigues@github.com/hugorodrigues/setup.git"
   },
-  "keywords": ["sysadmin", "devops", "network", "setup", "hostname", "wireless", "dns", "hostname"],
-  "main": "./setup.js",
-  "dependencies": {}  
+  "keywords": [
+    "sysadmin",
+    "devops",
+    "network",
+    "interfaces",
+    "setup",
+    "hostname",
+    "wireless",
+    "dns",
+    "hostname"
+  ],
+  "homepage": "https://github.com/hugorodrigues/setup"
 }
