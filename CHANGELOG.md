@@ -1,5 +1,11 @@
 # Change Log
 
+## v1.0.3 (2017-06-21
+
+**Closed issues:**
+
+- Use unix line ending (\n) instead of \r\n
+
 ## v1.0.2 (2017-06-14)
 
 **Closed issues:**
