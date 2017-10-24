@@ -11,7 +11,7 @@ Change: hostname, network interfaces, hosts and date/time
 - Modify server date/time and BIOS update
 - Only works in linux :)
 
-You need to install wpasupplicant for wireless options
+**You need to install *wpasupplicant* for wireless options**
 
 
 # Install
@@ -22,22 +22,29 @@ npm install setup
 # API
 
 ### Networking
-- setup.network.config(config)  // Creates/returns a new network config file
-- setup.network.save(config, outFile) 	  // Saves the configuration
-- setup.network.restart() 	  // Restart network interfaces
-
+Key | Description
+--- | ---
+`setup.network.config(option)` | Generate a new network config file
+`setup.network.save(config, outFile)` | Saves the configuration
+`setup.network.restart()` | Restart network interfaces
 
 ### Hostname
-- setup.hosts.save(hostname, outFile)
+Key | Description 
+--- | --- 
+`setup.hosts.save(hostname, outFile)` | Saves the configuration
 
 
 ### Hosts (dns)
-- setup.hosts.config(hosts)
-- setup.hosts.save(config, outFile)
+Key | Description 
+--- | --- 
+`setup.hosts.config(hosts)` | Generate a new hosts config file
+`setup.hosts.save(config, outFile)` | Saves the configuration
 
 
 ### Date/Time
-- setup.clock.set(time) // Set date/time and sync BIOS clock
+Key | Description 
+--- | --- 
+`setup.clock.set(time)` | Set date/time and sync BIOS clock
 
 
 # Examples
@@ -51,7 +58,6 @@ Your ethernet card will have a static ip.
 var setup = require('setup')();
 
 var config = setup.network.config({
-
 	wlan0: {
 		auto: true, // start at Boot
 		dhcp: true, // Use DHCP
