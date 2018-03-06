@@ -31,15 +31,15 @@ describe('Testing networking Functions', () => {
     sandbox.restore();
   });
 
-  describe('Testing parse function', () => {
+  describe('Testing parseSync function', () => {
 
-    it('should throw an error if the auto definition is missing', async () => {
+    it('should throw an error if the auto definition is missing', () => {
       const data = 'iface foo inet';
       const expected = 'Parse error! Missing `auto` definition!';
 
       try {
         fs.writeFileSync(filePath, data, 'utf8');
-        await networking.parse(filePath);
+        networking.parseSync(filePath);
         should.fail();
       } catch (error) {
         should.exist(error);
@@ -47,13 +47,13 @@ describe('Testing networking Functions', () => {
       }
     });
 
-    it('should throw an error if an iface definition is incorrect', async () => {
+    it('should throw an error if an iface definition is incorrect', () => {
       const data = 'auto lo\n\niface foo inet';
       const expected = `Parse error! Incorrect iface definition at: 'iface foo inet'`;
 
       try {
         fs.writeFileSync(filePath, data, 'utf8');
-        await networking.parse(filePath);
+        networking.parseSync(filePath);
         should.fail();
       } catch (error) {
         should.exist(error);
@@ -61,13 +61,13 @@ describe('Testing networking Functions', () => {
       }
     });
 
-    it('should be able to parse the /etc/network/interfaces by default', async () => {
+    it('should be able to parseSync the /etc/network/interfaces by default', () => {
 
       const data = 'auto lo\n\niface lo inet loopback';
 
       try {
         fs.writeFileSync(filePath, data, 'utf8');
-        const result = await networking.parse();
+        const result = networking.parseSync();
         should.exist(result);
         result.should.have.property('auto', ['lo']);
         result.should.have.property('ifaces').which.is.an.Array();
@@ -78,11 +78,11 @@ describe('Testing networking Functions', () => {
 
     });
 
-    it('should be able to parse the interfaces file succesfully', async () => {
+    it('should be able to parseSync the interfaces file succesfully', () => {
       try {
         mockfs.restore();// disable mockfs
 
-        const result = await networking.parse(interfaces);
+        const result = networking.parseSync(interfaces);
         let expected_settings, raw;
 
         result.should.have.property('auto', [ 'lo' ]);
@@ -174,9 +174,9 @@ describe('Testing networking Functions', () => {
     });
   });
 
-  describe('Testing save function', () => {
+  describe('Testing saveSync function', () => {
 
-    it('should throw an error if an iface definition is missing', async () => {
+    it('should throw an error if an iface definition is missing', () => {
       const expected = 'Invalid configuration, missing ifaces!';
 
       const config = {
@@ -184,7 +184,7 @@ describe('Testing networking Functions', () => {
       };
 
       try {
-        await networking.save(config, filePath);
+        networking.saveSync(config, filePath);
         should.fail();
       } catch (error) {
         should.exist(error);
@@ -192,7 +192,7 @@ describe('Testing networking Functions', () => {
       }
     });
 
-    it('should throw an error if the required iface property `device` is missing', async () => {
+    it('should throw an error if the required iface property `device` is missing', () => {
       const expected = `Missing property! Iface property 'device' is required!`;
 
       const config = {
@@ -203,7 +203,7 @@ describe('Testing networking Functions', () => {
       };
 
       try {
-        await networking.save(config, filePath);
+        networking.saveSync(config, filePath);
         should.fail();
       } catch (error) {
         should.exist(error);
@@ -211,7 +211,7 @@ describe('Testing networking Functions', () => {
       }
     });
 
-    it('should throw an error if the required iface property `mode` is missing', async () => {
+    it('should throw an error if the required iface property `mode` is missing', () => {
       const expected = `Missing property! Iface property 'mode' is required!`;
 
       const config = {
@@ -222,7 +222,7 @@ describe('Testing networking Functions', () => {
       };
 
       try {
-        await networking.save(config, filePath);
+        networking.saveSync(config, filePath);
         should.fail();
       } catch (error) {
         should.exist(error);
@@ -230,7 +230,7 @@ describe('Testing networking Functions', () => {
       }
     });
 
-    it('should throw an error if an iface settings has an undefined value', async () => {
+    it('should throw an error if an iface settings has an undefined value', () => {
       const expected = 'Undefined value! iface property \'address\' is \'null\'';
 
       const config = {
@@ -249,7 +249,7 @@ describe('Testing networking Functions', () => {
       };
 
       try {
-        await networking.save(config, filePath);
+        networking.saveSync(config, filePath);
         should.fail();
       } catch (error) {
         should.exist(error);
@@ -257,11 +257,10 @@ describe('Testing networking Functions', () => {
       }
     });
 
-    it('should throw an error if fs.writeFile failed', async () => {
+    it('should throw an error if fs.writeFile failed', () => {
       const expected = 'Some error occured!';
-      const stub = sandbox.stub(fs, 'writeFile').callsFake((fPath, data, options, cb) => {
-        cb(new Error(expected));
-      });
+      const stub = sandbox.stub(fs, 'writeFileSync')
+        .throws(new Error(expected));
 
       const config = {
         auto: 'lo',
@@ -272,7 +271,7 @@ describe('Testing networking Functions', () => {
       };
 
       try {
-        await networking.save(config, filePath);
+        networking.saveSync(config, filePath);
         should.fail();
       } catch (error) {
         should.exist(error);
@@ -280,7 +279,7 @@ describe('Testing networking Functions', () => {
       }
     });
 
-    it('should be able to save if the auto value is not an Array', async () => {
+    it('should be able to saveSync if the auto value is not an Array', () => {
       const expected = '# generated by node.js package `setup`\n' +
         'auto lo\n\n' +
         'iface eth0 inet dhcp\n';
@@ -294,14 +293,14 @@ describe('Testing networking Functions', () => {
       };
 
       try {
-        const result = await networking.save(config, filePath);
+        const result = networking.saveSync(config, filePath);
         result.should.equal(expected);
       } catch (error) {
         should.fail(error);
       }
     });
 
-    it('should be able to save if the iface value is not an Array', async () => {
+    it('should be able to saveSync if the iface value is not an Array', () => {
       const expected = '# generated by node.js package `setup`\n' +
         'auto lo\n\n' +
         'iface eth0 inet dhcp\n';
@@ -315,14 +314,14 @@ describe('Testing networking Functions', () => {
       };
 
       try {
-        const result = await networking.save(config, filePath);
+        const result = networking.saveSync(config, filePath);
         result.should.equal(expected);
       } catch (error) {
         should.fail(error);
       }
     });
 
-    it('should be able to save `auto` as loopback by default', async () => {
+    it('should be able to saveSync `auto` as loopback by default', () => {
       const expected = '# generated by node.js package `setup`\n' +
         'auto lo\n\n' +
         'iface eth0 inet dhcp\n';
@@ -335,14 +334,14 @@ describe('Testing networking Functions', () => {
       };
 
       try {
-        const result = await networking.save(config, filePath);
+        const result = networking.saveSync(config, filePath);
         result.should.equal(expected);
       } catch (error) {
         should.fail(error);
       }
     });
 
-    it('should be able to save the basic configuration', async () => {
+    it('should be able to saveSync the basic configuration', () => {
       const expected = '# generated by node.js package `setup`\n' +
         'auto lo\n\n' +
         'iface eth0 inet dhcp\n';
@@ -356,14 +355,14 @@ describe('Testing networking Functions', () => {
       };
 
       try {
-        const result = await networking.save(config, filePath);
+        const result = networking.saveSync(config, filePath);
         result.should.equal(expected);
       } catch (error) {
         should.fail(error);
       }
     })
 
-    it('should be able to save the configuration succesfully', async () => {
+    it('should be able to saveSync the configuration succesfully', () => {
       const expected = '# generated by node.js package `setup`\n'+
         'auto eth0 wlan0\n\n' +
         'iface eth0 inet static\n' +
@@ -397,7 +396,7 @@ describe('Testing networking Functions', () => {
       };
 
       try {
-        const result = await networking.save(config, filePath);
+        const result = networking.saveSync(config, filePath);
 
       } catch (error) {
         should.fail(error);
@@ -405,16 +404,14 @@ describe('Testing networking Functions', () => {
     });
   });
 
-  describe('Testing restart Function', () => {
+  describe('Testing restartSync Function', () => {
     
-    it('should throw an error if the command failed', async () => {
+    it('should throw an error if the command failed', () => {
       const expected = 'Some error occured!';
-      const stub = sandbox.stub(cp, 'exec').callsFake((cmd, cb) => {
-        cb(new Error(expected), null, null);
-      });
+      const stub = sandbox.stub(cp, 'execSync').throws(new Error(expected));
 
       try {
-        await networking.restart();
+        networking.restartSync();
         should.fail();
       } catch (error) {
         should.exist(error);
@@ -422,16 +419,17 @@ describe('Testing networking Functions', () => {
       }
     });
 
-    it('should be able to execute the networking restart command succefully', async () => {
+    it('should be able to execute the networking restartSync command succefully', () => {
       const expected = '/etc/init.d/networking restart';
-      const stub = sandbox.stub(cp, 'exec').callsFake((cmd, cb) => {
-        cb(null, cmd, null);
-      });
+      const stub = sandbox.stub(cp, 'execSync');
 
       try {
-        const result = await networking.restart();
-        should.exist(result);
-        result.should.equal(expected);
+        networking.restartSync();
+        stub.should.have.been.called;
+        const calls = stub.getCalls();
+        const args = calls[0].args;
+
+        args[0].should.equal(expected);
       } catch (error) {
         should.fail(error);
       }
