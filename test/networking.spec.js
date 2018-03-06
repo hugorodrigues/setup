@@ -134,7 +134,7 @@ describe('Testing networking Functions', () => {
           'gateway': '192.168.1.254',
           'broadcast': '192.168.0.255',
           'dns-search': ['example.com', 'sales.example.com', 'dev.example.com'],
-          'dns-nameservers': '192.168.1.3'
+          'dns-nameservers': ['192.168.1.3']
         };
         raw = 'iface eth0 inet static\n'+
         'address 192.168.1.15\n' +
